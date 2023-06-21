@@ -5,27 +5,19 @@ const makeObjectFromPath = (filepath) => JSON.parse(fs.readFileSync(filepath, { 
 const genDiff = (filepath1, filepath2) => {
   const obj1 = makeObjectFromPath(filepath1);
   const obj2 = makeObjectFromPath(filepath2);
-  const unitedEntries = Object.entries({ ...obj1, ...obj2 }).sort(([key1], [key2]) => {
-    if (key1 < key2) {
-      return -1;
-    }
-    if (key1 > key2) {
-      return 1;
-    }
-    return 0;
-  });
+  const unitedSortedKeys = Object.keys({ ...obj1, ...obj2 }).sort();
 
-  const difference = unitedEntries.reduce((acc, [key, value]) => {
-    if (Object.hasOwn(obj1, key) && !Object.hasOwn(obj2, key)) {
-      return `${acc}  - ${key}: ${value}\n`;
+  const difference = unitedSortedKeys.reduce((acc, key) => {
+    if (!Object.hasOwn(obj1, key)) {
+      return `${acc}  + ${key}: ${obj2[key]}\n`;
     }
 
-    if (Object.hasOwn(obj2, key) && !Object.hasOwn(obj1, key)) {
-      return `${acc}  + ${key}: ${value}\n`;
+    if (!Object.hasOwn(obj2, key)) {
+      return `${acc}  - ${key}: ${obj1[key]}\n`;
     }
 
     if (obj1[key] === obj2[key]) {
-      return `${acc}    ${key}: ${value}\n`;
+      return `${acc}    ${key}: ${obj1[key]}\n`;
     }
     return `${acc}  - ${key}: ${obj1[key]}\n  + ${key}: ${obj2[key]}\n`;
   }, '');
