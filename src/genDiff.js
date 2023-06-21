@@ -5,9 +5,10 @@ const makeObjectFromPath = (filepath) => JSON.parse(fs.readFileSync(filepath, { 
 const genDiff = (filepath1, filepath2) => {
   const obj1 = makeObjectFromPath(filepath1);
   const obj2 = makeObjectFromPath(filepath2);
-  const unitedSortedKeys = Object.keys({ ...obj1, ...obj2 }).sort();
+  const unitedKeys = Object.keys({ ...obj1, ...obj2 });
+  const sortedUnitedKeys = unitedKeys.sort();
 
-  const difference = unitedSortedKeys.reduce((acc, key) => {
+  const difference = sortedUnitedKeys.reduce((acc, key) => {
     if (!Object.hasOwn(obj1, key)) {
       return `${acc}  + ${key}: ${obj2[key]}\n`;
     }
