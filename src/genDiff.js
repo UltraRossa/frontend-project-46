@@ -14,22 +14,22 @@ const genDiff = (filepath1, filepath2) => {
     }
     return 0;
   });
+
   const difference = unitedEntries.reduce((acc, [key, value]) => {
     if (Object.hasOwn(obj1, key) && !Object.hasOwn(obj2, key)) {
-      const currentValue = `${acc}  - ${key}: ${value}\n`;
-      return currentValue;
+      return `${acc}  - ${key}: ${value}\n`;
     }
+
     if (Object.hasOwn(obj2, key) && !Object.hasOwn(obj1, key)) {
-      const currentValue = `${acc}  + ${key}: ${value}\n`;
-      return currentValue;
+      return `${acc}  + ${key}: ${value}\n`;
     }
+
     if (obj1[key] === obj2[key]) {
-      const currentValue = `${acc}    ${key}: ${value}\n`;
-      return currentValue;
+      return `${acc}    ${key}: ${value}\n`;
     }
-    const currentValue = `${acc}  - ${key}: ${obj1[key]}\n  + ${key}: ${obj2[key]}\n`;
-    return currentValue;
+    return `${acc}  - ${key}: ${obj1[key]}\n  + ${key}: ${obj2[key]}\n`;
   }, '');
+
   return `{\n${difference}}`;
 };
 
