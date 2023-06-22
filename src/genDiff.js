@@ -1,14 +1,14 @@
 import fs from 'fs';
+import _ from 'lodash';
 
 const makeObjectFromPath = (filepath) => JSON.parse(fs.readFileSync(filepath, { encoding: 'utf8' }));
 
 const genDiff = (filepath1, filepath2) => {
   const obj1 = makeObjectFromPath(filepath1);
   const obj2 = makeObjectFromPath(filepath2);
-  const unitedKeys = Object.keys({ ...obj1, ...obj2 });
-  const sortedUnitedKeys = unitedKeys.sort();
+  const unitedSortedKeys = _.sortBy(Object.keys({ ...obj1, ...obj2 }));
 
-  const difference = sortedUnitedKeys.reduce((acc, key) => {
+  const difference = unitedSortedKeys.reduce((acc, key) => {
     if (!Object.hasOwn(obj1, key)) {
       return `${acc}  + ${key}: ${obj2[key]}\n`;
     }
