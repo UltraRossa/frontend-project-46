@@ -3,10 +3,11 @@ name: gendiff-check
 on: push
 
 jobs:
-  my-job:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: linter check
-        run: make lint
-      - name: test check
-        run: make test
+      - name: linter and test check
+      - run: make lint
+      - run: make test
