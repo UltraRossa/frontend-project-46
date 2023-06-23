@@ -1,13 +1,16 @@
 publish:
-	npm publish --dry-run
+		npm publish --dry-run
 
 lint:
-	npx eslint .
+		npx eslint .
 
 install:
-	npm ci
+		npm ci
 
 test:
-	NODE_OPTIONS=--experimental-vm-modules npx jest
+		NODE_OPTIONS=--experimental-vm-modules npx jest
+
+test-coverage:
+		npx jest --coverage
 
 .PHONY: test
