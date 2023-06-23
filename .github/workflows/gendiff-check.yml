@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: linter and test check
+      - uses: actions/checkout@v3
+      - run: make install
       - run: make lint
       - run: make test
