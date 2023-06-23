@@ -1,5 +1,11 @@
+/* eslint no-underscore-dangle: 0 */
+
 import fs from 'fs';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const readFile = (filepath) => fs.readFileSync(filepath, { encoding: 'utf8' });
 
@@ -8,4 +14,6 @@ const normalizePath = (filepath) => {
   return fullPath;
 };
 
-export { readFile, normalizePath };
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+
+export { readFile, normalizePath, getFixturePath };
