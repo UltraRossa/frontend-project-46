@@ -7,3 +7,10 @@ test('differ plain JSON files', () => {
   const expected = String(readFile(getFixturePath('expectedFile.txt')));
   expect(genDiff(testPath1, testPath2)).toEqual(expected);
 });
+
+test('differ plain YAML files', () => {
+  const testPath1 = getFixturePath('testFile1.yaml');
+  const testPath2 = getFixturePath('testFile2.yaml');
+  const expected = String(readFile(getFixturePath('expectedFile.txt')));
+  expect(genDiff(testPath1, testPath2)).toEqual(expected);
+});
