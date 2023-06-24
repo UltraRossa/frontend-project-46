@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { readFile, normalizePath } from './utils.js';
+import { normalizePath } from './utils.js';
 import parse from './parsers.js';
 
 const genDiff = (filepath1, filepath2) => {
