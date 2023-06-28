@@ -1,9 +1,15 @@
-const stylish = (diff) => {
-  const itert = (node, depth) => {
+import _ from 'lodash';
 
+const isPlain = (node) => node.type === 'plain';
+
+const stylish = (diff) => {
+  const iter = (node, depth) => {
+    if (!_.isObject(node)) {
+
+    }
   };
 
-  return itert(diff, 1);
+  return iter(diff, 1);
 };
 
 export default stylish;
