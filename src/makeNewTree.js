@@ -1,38 +1,34 @@
 import _ from 'lodash';
 
-const makeNewTree = (o1, o2) => {
-  const innerFunc = (obj1, obj2) => {
-    const obj = {};
-    const mergedObj = _.merge(obj, obj1, obj2);
+const makeNewTree = (obj1, obj2) => {
+  const obj = {};
+  const mergedObj = _.merge(obj, obj1, obj2);
 
-    const result = _.sortBy(Object.entries(mergedObj)).map(([key, value]) => {
-      if (!_.has(obj1, key)) {
-        return { key, value, status: 'added' };
-      }
+  const result = _.sortBy(Object.entries(mergedObj)).map(([key, value]) => {
+    if (!_.has(obj1, key)) {
+      return { key, value, status: 'added' };
+    }
 
-      if (!_.has(obj2, key)) {
-        return { key, value, status: 'deleted' };
-      }
+    if (!_.has(obj2, key)) {
+      return { key, value, status: 'deleted' };
+    }
 
-      if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
-        return { key, children: innerFunc(obj1[key], obj2[key]), status: 'nested' };
-      }
+    if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+      return { key, children: makeNewTree(obj1[key], obj2[key]), status: 'nested' };
+    }
 
-      if (obj1[key] !== obj2[key]) {
-        return {
-          key,
-          oldValue: obj1[key],
-          newValue: obj2[key],
-          status: 'changed',
-        };
-      }
+    if (obj1[key] !== obj2[key]) {
+      return {
+        key,
+        oldValue: obj1[key],
+        newValue: obj2[key],
+        status: 'changed',
+      };
+    }
 
-      return { key, value, status: 'unchanged' };
-    });
-    return result;
-  };
-  const children = innerFunc(o1, o2);
-  return children;
+    return { key, value, status: 'unchanged' };
+  });
+  return result;
 };
 
 export default makeNewTree;
