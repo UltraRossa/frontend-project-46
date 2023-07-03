@@ -1,8 +1,9 @@
 import genDiff from '../src/index.js';
 import { readFile, getFixturePath } from '../src/utils.js';
 
-test('differ plain files', () => {
+test('differ files', () => {
   const expected = String(readFile(getFixturePath('expectedFile.txt')));
+
   const testPath1 = getFixturePath('testFile1.JSON');
   const testPath2 = getFixturePath('testFile2.JSON');
   expect(genDiff(testPath1, testPath2)).toEqual(expected);
