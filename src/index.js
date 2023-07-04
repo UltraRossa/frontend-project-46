@@ -1,4 +1,5 @@
-import { normalizePath, setFormatter } from './utils.js';
+import { normalizePath } from './utils.js';
+import setFormatter from '../formatters/index.js';
 import parse from './parsers.js';
 import makeNewTree from './makeNewTree.js';
 
