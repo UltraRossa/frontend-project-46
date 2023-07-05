@@ -70,18 +70,16 @@ const stringify = (node, depth) => {
     ].join('\n');
   }
 
-  if (node.status === 'nested') {
-    const { children } = node;
-    const bracketIndent = indentSymbol.repeat(indentSize);
-    const lines = children.map((child) => stringify(child, depth + 1));
-    const result = [
-      '{',
-      ...lines,
-      `${bracketIndent}}`,
-    ].join('\n');
-    return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${result}`;
-  }
-  return null;
+  // node.status === 'nested'
+  const { children } = node;
+  const bracketIndent = indentSymbol.repeat(indentSize);
+  const lines = children.map((child) => stringify(child, depth + 1));
+  const result = [
+    '{',
+    ...lines,
+    `${bracketIndent}}`,
+  ].join('\n');
+  return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${result}`;
 };
 
 const stylish = (diff) => {
