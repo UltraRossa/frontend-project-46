@@ -44,16 +44,22 @@ const getStrFromChanged = (node, depth, symbol) => {
   return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${value}`;
 };
 
+const getStrFromStatus = (node, depth, symbol) => {
+  const indentSize = depth * spaceCount;
+  const { key, value } = node;
+  if (_.isObject(value)) {
+    return `${indentSymbol.repeat(depth * spaceCount - specSymLength)}${symbol}${key}: ${stringifyObject(value, depth + 1)}`;
+  }
+  return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${value}`;
+};
+
 const stringify = (node, depth) => {
   const { key, status } = node;
   const indentSize = depth * spaceCount;
   const specialSymbol = getSpecialSymbol(node);
 
   if (status === 'added' || status === 'deleted' || status === 'unchanged') {
-    if (_.isObject(node.value)) {
-      return `${indentSymbol.repeat(depth * spaceCount - 2)}${specialSymbol}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
-    }
-    return `${indentSymbol.repeat(indentSize - specSymLength)}${specialSymbol}${node.key}: ${node.value}`;
+    return getStrFromStatus(node, depth, specialSymbol);
   }
 
   if (status === 'changed') {
