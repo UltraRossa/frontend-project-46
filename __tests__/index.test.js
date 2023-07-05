@@ -17,16 +17,11 @@ beforeAll(() => {
   testPath6 = getFixturePath('testFile2.yml');
 });
 
-test('differ files with stylish formatter', () => {
+test('test differ files', () => {
   const expectedStylish = String(readFile(getFixturePath('expectedStylish.txt')));
-  expect(genDiff(testPath1, testPath2, 'stylish')).toEqual(expectedStylish);
-  expect(genDiff(testPath3, testPath4, 'stylish')).toEqual(expectedStylish);
-  expect(genDiff(testPath5, testPath6, 'stylish')).toEqual(expectedStylish);
-});
-
-test('differ files with plain formatter', () => {
   const expectedPlain = String(readFile(getFixturePath('expectedPlain.txt')));
-  expect(genDiff(testPath1, testPath2, 'plain')).toEqual(expectedPlain);
-  expect(genDiff(testPath3, testPath4, 'plain')).toEqual(expectedPlain);
-  expect(genDiff(testPath5, testPath6, 'plain')).toEqual(expectedPlain);
+  expect(genDiff(testPath3, testPath6)).toEqual(expectedStylish);
+  expect(genDiff(testPath5, testPath4, 'stylish')).toEqual(expectedStylish);
+  expect(genDiff(testPath3, testPath2, 'plain')).toEqual(expectedPlain);
+  expect(genDiff(testPath1, testPath6, 'plain')).toEqual(expectedPlain);
 });
