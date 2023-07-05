@@ -2,6 +2,24 @@ import _ from 'lodash';
 
 const [plus, minus, space, indentSymbol, spaceCount] = ['+ ', '- ', '  ', ' ', 4];
 
+const stringifyObject = (object, depth) => {
+  const indentSize = depth * spaceCount;
+  const bracketIndent = indentSymbol.repeat(indentSize - spaceCount);
+  const keys = Object.keys(object);
+  const result = keys.map((key) => {
+    if (!_.isObject(object[key])) {
+      return `${indentSymbol.repeat(indentSize)}${key}: ${object[key]}`;
+    }
+    return `${indentSymbol.repeat(indentSize)}${key}: ${stringifyObject(object[key], depth + 1)}`;
+  });
+
+  return [
+    '{',
+    ...result,
+    `${bracketIndent}}`,
+  ].join('\n');
+};
+
 const stringify = (node, depth) => {
   const indentSize = depth * spaceCount;
 
@@ -9,34 +27,34 @@ const stringify = (node, depth) => {
     if (!_.isObject(node.value)) {
       return `${indentSymbol.repeat(indentSize - 2)}${plus}${node.key}: ${node.value}`;
     }
-    return `${indentSymbol.repeat(depth * spaceCount - 2)}${plus}${node.key}: ${stringify(node.value, depth + 1)}`;
+    return `${indentSymbol.repeat(depth * spaceCount - 2)}${plus}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
   }
 
   if (node.status === 'deleted') {
     if (!_.isObject(node.value)) {
       return `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${node.value}`;
     }
-    return `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${stringify(node.value, depth + 1)}`;
+    return `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
   }
 
   if (node.status === 'unchanged') {
     if (!_.isObject(node.value)) {
       return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${node.value}`;
     }
-    return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${stringify(node.value, depth + 1)}`;
+    return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
   }
 
   if (node.status === 'changed') {
     let oldValue;
     let newValue;
     if (_.isObject(node.oldValue)) {
-      oldValue = `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${stringify(node.oldValue, depth + 1)}`;
+      oldValue = `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${stringifyObject(node.oldValue, depth + 1)}`;
       newValue = `${indentSymbol.repeat(indentSize - 2)}${plus}${node.key}: ${node.newValue}`;
     }
 
     if (_.isObject(node.newValue)) {
       oldValue = `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${node.oldValue}`;
-      newValue = `${indentSymbol.repeat(indentSize - 2)}${plus}${node.key}: ${stringify(node.newValue, depth + 1)}`;
+      newValue = `${indentSymbol.repeat(indentSize - 2)}${plus}${node.key}: ${stringifyObject(node.newValue, depth + 1)}`;
     }
 
     if (!_.isObject(node.oldValue) && !_.isObject(node.newValue)) {
@@ -61,21 +79,7 @@ const stringify = (node, depth) => {
     ].join('\n');
     return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${result}`;
   }
-
-  const bracketIndent = indentSymbol.repeat(indentSize - spaceCount);
-  const keys = Object.keys(node);
-  const result = keys.map((key) => {
-    if (!_.isObject(node[key])) {
-      return `${indentSymbol.repeat(indentSize)}${key}: ${node[key]}`;
-    }
-    return `${indentSymbol.repeat(indentSize)}${key}: ${stringify(node[key], depth + 1)}`;
-  });
-
-  return [
-    '{',
-    ...result,
-    `${bracketIndent}}`,
-  ].join('\n');
+  return null;
 };
 
 const stylish = (diff) => {
