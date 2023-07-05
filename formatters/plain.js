@@ -31,14 +31,13 @@ const iter = (node, path) => {
   }
 
   const { children } = node;
-  const result = children.flatMap((child) => iter(child, newPath));
-
-  return result;
+  const formattedChildren = children.flatMap((child) => iter(child, newPath));
+  return formattedChildren;
 };
 
 const plain = (diff) => {
-  const result = diff.flatMap((child) => iter(child, []));
-  return result.join('\n');
+  const formattedDiff = diff.flatMap((child) => iter(child, [])).join('\n');
+  return formattedDiff;
 };
 
 export default plain;

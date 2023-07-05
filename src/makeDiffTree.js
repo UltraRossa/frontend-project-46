@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const makeNewTree = (obj1, obj2) => {
+const makeDiffTree = (obj1, obj2) => {
   const obj = {};
   const mergedObj = _.merge(obj, obj1, obj2);
 
@@ -14,7 +14,7 @@ const makeNewTree = (obj1, obj2) => {
     }
 
     if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
-      return { key, children: makeNewTree(obj1[key], obj2[key]), status: 'nested' };
+      return { key, children: makeDiffTree(obj1[key], obj2[key]), status: 'nested' };
     }
 
     if (obj1[key] !== obj2[key]) {
@@ -31,4 +31,4 @@ const makeNewTree = (obj1, obj2) => {
   return result;
 };
 
-export default makeNewTree;
+export default makeDiffTree;
