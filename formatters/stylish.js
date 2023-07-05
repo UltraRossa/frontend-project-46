@@ -34,6 +34,24 @@ const getSpecialSymbol = (node) => {
   }
 };
 
+const getStrFromOldValue = (node, depth, symbol) => {
+  const { oldValue, key } = node;
+  const indentSize = depth * spaceCount;
+  if (_.isObject(oldValue)) {
+    return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${stringifyObject(oldValue, depth + 1)}`;
+  }
+  return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${oldValue}`;
+};
+
+const getStrFromNewValue = (node, depth, symbol) => {
+  const { newValue, key } = node;
+  const indentSize = depth * spaceCount;
+  if (_.isObject(newValue)) {
+    return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${stringifyObject(newValue, depth + 1)}`;
+  }
+  return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${newValue}`;
+};
+
 const stringify = (node, depth) => {
   const { key, status } = node;
   const indentSize = depth * spaceCount;
@@ -48,22 +66,8 @@ const stringify = (node, depth) => {
 
   if (status === 'changed') {
     const [minus, plus] = specialSymbol;
-    let oldValue;
-    let newValue;
-    if (_.isObject(node.oldValue)) {
-      oldValue = `${indentSymbol.repeat(indentSize - specSymLength)}${minus}${key}: ${stringifyObject(node.oldValue, depth + 1)}`;
-      newValue = `${indentSymbol.repeat(indentSize - specSymLength)}${plus}${key}: ${node.newValue}`;
-    }
-
-    if (_.isObject(node.newValue)) {
-      oldValue = `${indentSymbol.repeat(indentSize - specSymLength)}${minus}${key}: ${node.oldValue}`;
-      newValue = `${indentSymbol.repeat(indentSize - specSymLength)}${plus}${key}: ${stringifyObject(node.newValue, depth + 1)}`;
-    }
-
-    if (!_.isObject(node.oldValue) && !_.isObject(node.newValue)) {
-      oldValue = `${indentSymbol.repeat(indentSize - specSymLength)}${minus}${key}: ${node.oldValue}`;
-      newValue = `${indentSymbol.repeat(indentSize - specSymLength)}${plus}${key}: ${node.newValue}`;
-    }
+    const oldValue = getStrFromOldValue(node, depth, minus);
+    const newValue = getStrFromNewValue(node, depth, plus);
     const lines = [oldValue, newValue].join('\n');
     return lines;
   }
