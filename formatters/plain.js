@@ -5,7 +5,7 @@ const addQuotesToStr = (data) => (_.isString(data) ? `'${data}'` : data);
 const iter = (node, path) => {
   let resultedPath;
   const { key: currentKey } = node;
-  const newPath = path;// _.cloneDeep(path);
+  const newPath = _.clone(path);
   newPath.push(currentKey);
 
   if (node.status === 'deleted') {
