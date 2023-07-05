@@ -4,7 +4,8 @@ const makeDiffTree = (obj1, obj2) => {
   const obj = {};
   const mergedObj = _.merge(obj, obj1, obj2);
 
-  const result = _.sortBy(Object.entries(mergedObj)).map(([key, value]) => {
+  const entries = Object.entries(mergedObj);
+  const diff = _.sortBy(entries).map(([key, value]) => {
     if (!_.has(obj1, key)) {
       return { key, value, status: 'added' };
     }
@@ -28,7 +29,7 @@ const makeDiffTree = (obj1, obj2) => {
 
     return { key, value, status: 'unchanged' };
   });
-  return result;
+  return diff;
 };
 
 export default makeDiffTree;
