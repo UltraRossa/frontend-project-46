@@ -34,22 +34,14 @@ const getSpecialSymbol = (node) => {
   }
 };
 
-const getStrFromOldValue = (node, depth, symbol) => {
-  const { oldValue, key } = node;
+const getStrFromChanged = (node, depth, symbol) => {
   const indentSize = depth * spaceCount;
-  if (_.isObject(oldValue)) {
-    return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${stringifyObject(oldValue, depth + 1)}`;
+  const { oldValue, newValue, key } = node;
+  const value = symbol === '- ' ? oldValue : newValue;
+  if (_.isObject(value)) {
+    return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${stringifyObject(value, depth + 1)}`;
   }
-  return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${oldValue}`;
-};
-
-const getStrFromNewValue = (node, depth, symbol) => {
-  const { newValue, key } = node;
-  const indentSize = depth * spaceCount;
-  if (_.isObject(newValue)) {
-    return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${stringifyObject(newValue, depth + 1)}`;
-  }
-  return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${newValue}`;
+  return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${value}`;
 };
 
 const stringify = (node, depth) => {
@@ -66,8 +58,8 @@ const stringify = (node, depth) => {
 
   if (status === 'changed') {
     const [minus, plus] = specialSymbol;
-    const oldValue = getStrFromOldValue(node, depth, minus);
-    const newValue = getStrFromNewValue(node, depth, plus);
+    const oldValue = getStrFromChanged(node, depth, minus);
+    const newValue = getStrFromChanged(node, depth, plus);
     const lines = [oldValue, newValue].join('\n');
     return lines;
   }
