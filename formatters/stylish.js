@@ -20,28 +20,30 @@ const stringifyObject = (object, depth) => {
   ].join('\n');
 };
 
+const getSpecialSymbol = (node) => {
+  const { status } = node;
+  switch (status) {
+    case 'added':
+      return '+ ';
+    case 'deleted':
+      return '- ';
+    case 'unchanged':
+      return '  ';
+    default:
+      throw new Error(`Uncorrect status: '${status}'!`);
+  }
+};
+
 const stringify = (node, depth) => {
+  const { status } = node;
   const indentSize = depth * spaceCount;
 
-  if (node.status === 'added') {
+  if (status === 'added' || status === 'deleted' || status === 'unchanged') {
+    const specialSymbol = getSpecialSymbol(node);
     if (_.isObject(node.value)) {
-      return `${indentSymbol.repeat(depth * spaceCount - 2)}${plus}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
+      return `${indentSymbol.repeat(depth * spaceCount - 2)}${specialSymbol}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
     }
-    return `${indentSymbol.repeat(indentSize - 2)}${plus}${node.key}: ${node.value}`;
-  }
-
-  if (node.status === 'deleted') {
-    if (_.isObject(node.value)) {
-      return `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
-    }
-    return `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${node.value}`;
-  }
-
-  if (node.status === 'unchanged') {
-    if (_.isObject(node.value)) {
-      return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
-    }
-    return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${node.value}`;
+    return `${indentSymbol.repeat(indentSize - 2)}${specialSymbol}${node.key}: ${node.value}`;
   }
 
   if (node.status === 'changed') {
