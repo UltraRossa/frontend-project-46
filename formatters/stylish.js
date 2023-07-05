@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const [plus, minus, space, indentSymbol, spaceCount] = ['+ ', '- ', '  ', ' ', 4];
+const [indentSymbol, spaceCount] = [' ', 4];
 
 const stringifyObject = (object, depth) => {
   const indentSize = depth * spaceCount;
@@ -29,6 +29,10 @@ const getSpecialSymbol = (node) => {
       return '- ';
     case 'unchanged':
       return '  ';
+    case 'nested':
+      return '  ';
+    case 'changed':
+      return ['- ', '+ '];
     default:
       throw new Error(`Uncorrect status: '${status}'!`);
   }
@@ -37,16 +41,17 @@ const getSpecialSymbol = (node) => {
 const stringify = (node, depth) => {
   const { status } = node;
   const indentSize = depth * spaceCount;
+  const specialSymbol = getSpecialSymbol(node);
 
   if (status === 'added' || status === 'deleted' || status === 'unchanged') {
-    const specialSymbol = getSpecialSymbol(node);
     if (_.isObject(node.value)) {
       return `${indentSymbol.repeat(depth * spaceCount - 2)}${specialSymbol}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
     }
     return `${indentSymbol.repeat(indentSize - 2)}${specialSymbol}${node.key}: ${node.value}`;
   }
 
-  if (node.status === 'changed') {
+  if (status === 'changed') {
+    const [minus, plus] = specialSymbol;
     let oldValue;
     let newValue;
     if (_.isObject(node.oldValue)) {
@@ -63,11 +68,8 @@ const stringify = (node, depth) => {
       oldValue = `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${node.oldValue}`;
       newValue = `${indentSymbol.repeat(indentSize - 2)}${plus}${node.key}: ${node.newValue}`;
     }
-
-    return [
-      oldValue,
-      newValue,
-    ].join('\n');
+    const lines = [oldValue, newValue].join('\n');
+    return lines;
   }
 
   // node.status === 'nested'
@@ -79,7 +81,7 @@ const stringify = (node, depth) => {
     ...lines,
     `${bracketIndent}}`,
   ].join('\n');
-  return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${result}`;
+  return `${indentSymbol.repeat(indentSize - 2)}${specialSymbol}${node.key}: ${result}`;
 };
 
 const stylish = (diff) => {
