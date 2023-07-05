@@ -6,16 +6,16 @@ const stringifyObject = (object, depth) => {
   const indentSize = depth * spaceCount;
   const bracketIndent = indentSymbol.repeat(indentSize - spaceCount);
   const keys = Object.keys(object);
-  const result = keys.map((key) => {
-    if (!_.isObject(object[key])) {
-      return `${indentSymbol.repeat(indentSize)}${key}: ${object[key]}`;
+  const lines = keys.map((key) => {
+    if (_.isObject(object[key])) {
+      return `${indentSymbol.repeat(indentSize)}${key}: ${stringifyObject(object[key], depth + 1)}`;
     }
-    return `${indentSymbol.repeat(indentSize)}${key}: ${stringifyObject(object[key], depth + 1)}`;
+    return `${indentSymbol.repeat(indentSize)}${key}: ${object[key]}`;
   });
 
   return [
     '{',
-    ...result,
+    ...lines,
     `${bracketIndent}}`,
   ].join('\n');
 };
@@ -24,24 +24,24 @@ const stringify = (node, depth) => {
   const indentSize = depth * spaceCount;
 
   if (node.status === 'added') {
-    if (!_.isObject(node.value)) {
-      return `${indentSymbol.repeat(indentSize - 2)}${plus}${node.key}: ${node.value}`;
+    if (_.isObject(node.value)) {
+      return `${indentSymbol.repeat(depth * spaceCount - 2)}${plus}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
     }
-    return `${indentSymbol.repeat(depth * spaceCount - 2)}${plus}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
+    return `${indentSymbol.repeat(indentSize - 2)}${plus}${node.key}: ${node.value}`;
   }
 
   if (node.status === 'deleted') {
-    if (!_.isObject(node.value)) {
-      return `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${node.value}`;
+    if (_.isObject(node.value)) {
+      return `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
     }
-    return `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
+    return `${indentSymbol.repeat(indentSize - 2)}${minus}${node.key}: ${node.value}`;
   }
 
   if (node.status === 'unchanged') {
-    if (!_.isObject(node.value)) {
-      return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${node.value}`;
+    if (_.isObject(node.value)) {
+      return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
     }
-    return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${stringifyObject(node.value, depth + 1)}`;
+    return `${indentSymbol.repeat(indentSize - 2)}${space}${node.key}: ${node.value}`;
   }
 
   if (node.status === 'changed') {
