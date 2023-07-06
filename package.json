@@ -1,12 +1,12 @@
 {
   "name": "@hexlet/code",
-  "version": "1.0.0",
   "type": "module",
+  "version": "1.0.0",
   "description": "CLI utility that finds difference between two files and outputs it in one of specific formats",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
-  "main": "/src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
