@@ -34,19 +34,20 @@ const getSpecialSymbol = (node) => {
   }
 };
 
-const getStrFromNode = (node, depth, symbol) => {
+const getStrFromChanged = (node, depth, symbol) => {
   const indentSize = depth * spaceCount;
-  const { key, status } = node;
-  if (status === 'changed') {
-    const value = symbol === '- ' ? node.oldValue : node.newValue;
-    if (_.isObject(value)) {
-      return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${stringifyObject(value, depth + 1)}`;
-    }
-    return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${value}`;
+  const { oldValue, newValue, key } = node;
+  const value = symbol === '- ' ? oldValue : newValue;
+  if (_.isObject(value)) {
+    return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${stringifyObject(value, depth + 1)}`;
   }
+  return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${value}`;
+};
 
-  const { value } = node;
-  if (_.isObject(node.value)) {
+const getStrFromStatus = (node, depth, symbol) => {
+  const indentSize = depth * spaceCount;
+  const { key, value } = node;
+  if (_.isObject(value)) {
     return `${indentSymbol.repeat(depth * spaceCount - specSymLength)}${symbol}${key}: ${stringifyObject(value, depth + 1)}`;
   }
   return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${value}`;
@@ -58,13 +59,13 @@ const stringify = (node, depth) => {
   const specialSymbol = getSpecialSymbol(node);
 
   if (status === 'added' || status === 'deleted' || status === 'unchanged') {
-    return getStrFromNode(node, depth, specialSymbol);
+    return getStrFromStatus(node, depth, specialSymbol);
   }
 
   if (status === 'changed') {
     const [minus, plus] = specialSymbol;
-    const oldValue = getStrFromNode(node, depth, minus);
-    const newValue = getStrFromNode(node, depth, plus);
+    const oldValue = getStrFromChanged(node, depth, minus);
+    const newValue = getStrFromChanged(node, depth, plus);
     const lines = [oldValue, newValue].join('\n');
     return lines;
   }
