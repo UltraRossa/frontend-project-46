@@ -17,11 +17,13 @@ beforeAll(() => {
   testPath6 = getFixturePath('testFile2.yml');
 });
 
-test('test differ files', () => {
+test('test gendiff with different formatters ', () => {
   const expectedStylish = String(readFile(getFixturePath('expectedStylish.txt')));
   const expectedPlain = String(readFile(getFixturePath('expectedPlain.txt')));
+  const expectedJson = String(readFile(getFixturePath('expectedJson.txt')));
   expect(genDiff(testPath3, testPath6)).toEqual(expectedStylish);
   expect(genDiff(testPath5, testPath4, 'stylish')).toEqual(expectedStylish);
   expect(genDiff(testPath3, testPath2, 'plain')).toEqual(expectedPlain);
   expect(genDiff(testPath1, testPath6, 'plain')).toEqual(expectedPlain);
+  expect(genDiff(testPath5, testPath4, 'json')).toEqual(expectedJson);
 });

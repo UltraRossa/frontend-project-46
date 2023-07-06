@@ -7,7 +7,7 @@ const __dirname = dirname(__filename);
 
 const readFile = (filepath) => fs.readFileSync(filepath, { encoding: 'utf8' });
 
-const normalizePath = (filepath) => {
+const getFullPath = (filepath) => {
   const fullPath = path.resolve(process.cwd(), filepath);
   return fullPath;
 };
@@ -16,6 +16,6 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 
 export {
   readFile,
-  normalizePath,
+  getFullPath,
   getFixturePath,
 };

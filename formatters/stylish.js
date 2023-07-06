@@ -34,7 +34,7 @@ const getSpecialSymbol = (node) => {
   }
 };
 
-const getStrFromChanged = (node, depth, symbol) => {
+const genLineFromStatusChanged = (node, depth, symbol) => {
   const indentSize = depth * spaceCount;
   const { oldValue, newValue, key } = node;
   const value = symbol === '- ' ? oldValue : newValue;
@@ -44,7 +44,7 @@ const getStrFromChanged = (node, depth, symbol) => {
   return `${indentSymbol.repeat(indentSize - specSymLength)}${symbol}${key}: ${value}`;
 };
 
-const getStrFromStatus = (node, depth, symbol) => {
+const genLineFromStatus = (node, depth, symbol) => {
   const indentSize = depth * spaceCount;
   const { key, value } = node;
   if (_.isObject(value)) {
@@ -59,18 +59,18 @@ const stringify = (node, depth) => {
   const specialSymbol = getSpecialSymbol(node);
 
   if (status === 'added' || status === 'deleted' || status === 'unchanged') {
-    return getStrFromStatus(node, depth, specialSymbol);
+    return genLineFromStatus(node, depth, specialSymbol);
   }
 
   if (status === 'changed') {
     const [minus, plus] = specialSymbol;
-    const oldValue = getStrFromChanged(node, depth, minus);
-    const newValue = getStrFromChanged(node, depth, plus);
+    const oldValue = genLineFromStatusChanged(node, depth, minus);
+    const newValue = genLineFromStatusChanged(node, depth, plus);
     const lines = [oldValue, newValue].join('\n');
     return lines;
   }
 
-  // node.status === 'nested'
+  // status === 'nested'
   const { children } = node;
   const bracketIndent = indentSymbol.repeat(indentSize);
   const lines = children.map((child) => stringify(child, depth + 1));
