@@ -58,13 +58,15 @@ gendiff --format json filepath1.json filepath2.json
  ```
 
 ## Demonstrations
+#### plain files with stylish formatter by default
+[![asciicast](https://asciinema.org/a/sfehrHPK9i77HSbKEwlhABb39.svg)](https://asciinema.org/a/sfehrHPK9i77HSbKEwlhABb39)
 
-#### gendiff with stylish formatter  
-[![asciicast](https://asciinema.org/a/9VSADa3viwFOb0s4S7tjv5TDz.svg)](https://asciinema.org/a/9VSADa3viwFOb0s4S7tjv5TDz)
+#### nested files with stylish formatter
+[![asciicast](https://asciinema.org/a/LVZCpTkbWP8aJA7Ja6Z7agtiV.svg)](https://asciinema.org/a/LVZCpTkbWP8aJA7Ja6Z7agtiV)
 
-#### gendiff with plain formatter  
-[![asciicast](https://asciinema.org/a/liLTh0VD4GhH4D2IHoEMhQgwQ.svg)](https://asciinema.org/a/liLTh0VD4GhH4D2IHoEMhQgwQ)
+#### nested files with plain formatter  
+[![asciicast](https://asciinema.org/a/B0LUKWA2gzZGseHKIlKlutbPz.svg)](https://asciinema.org/a/B0LUKWA2gzZGseHKIlKlutbPz)
 
-#### gendiff with json formatter  
-[![asciicast](https://asciinema.org/a/B1LhXGRRW9P7LjWEFolEga8mL.svg)](https://asciinema.org/a/B1LhXGRRW9P7LjWEFolEga8mL)
+#### nested files with json formatter  
+[![asciicast](https://asciinema.org/a/eHeLCJhOZojdVuhW1XvfWvhbK.svg)](https://asciinema.org/a/eHeLCJhOZojdVuhW1XvfWvhbK)
 
