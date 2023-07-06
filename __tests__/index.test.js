@@ -17,7 +17,7 @@ beforeAll(() => {
   testPath6 = getFixturePath('testFile2.yml');
 });
 
-test('test gendiff with different formatters ', () => {
+test('gendiff with different formatters', () => {
   const expectedStylish = String(readFile(getFixturePath('expectedStylish.txt')));
   const expectedPlain = String(readFile(getFixturePath('expectedPlain.txt')));
   const expectedJson = String(readFile(getFixturePath('expectedJson.txt')));
