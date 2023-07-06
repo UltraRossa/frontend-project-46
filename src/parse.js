@@ -2,8 +2,6 @@ import { load } from 'js-yaml';
 import path from 'path';
 import { readFile } from './utils.js';
 
-// const parseJson = (filepath) => 
-// const parseYaml = (filepath) => 
 const parse = (filepath) => {
   const extension = path.extname(filepath);
 
