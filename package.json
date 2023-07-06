@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "type": "module",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/UltraRossa/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/UltraRossa/frontend-project-46/actions)",
+  "description": "CLI utility that show difference between two files in specific format",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
