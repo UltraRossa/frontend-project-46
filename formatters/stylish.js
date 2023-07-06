@@ -74,13 +74,13 @@ const stringify = (node, depth) => {
   const { children } = node;
   const bracketIndent = indentSymbol.repeat(indentSize);
   const lines = children.map((child) => stringify(child, depth + 1));
-  const result = ['{', ...lines, `${bracketIndent}}`].join('\n');
-  return `${indentSymbol.repeat(indentSize - specSymLength)}${specialSymbol}${key}: ${result}`;
+  const linesWithBrackets = ['{', ...lines, `${bracketIndent}}`].join('\n');
+  return `${indentSymbol.repeat(indentSize - specSymLength)}${specialSymbol}${key}: ${linesWithBrackets}`;
 };
 
 const stylish = (diff) => {
-  const result = diff.map((child) => stringify(child, 1));
-  return ['{', ...result, '}'].join('\n');
+  const resultedLines = diff.map((child) => stringify(child, 1));
+  return ['{', ...resultedLines, '}'].join('\n');
 };
 
 export default stylish;
