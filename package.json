@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
-  "type": "module",
   "version": "1.0.0",
+  "type": "module",
   "description": "CLI utility that finds difference between two files and outputs it in one of specific formats",
   "bin": {
     "gendiff": "bin/gendiff.js"
