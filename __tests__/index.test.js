@@ -9,8 +9,8 @@ let testPath5;
 let testPath6;
 
 beforeAll(() => {
-  testPath1 = getFixturePath('testFile1.JSON');
-  testPath2 = getFixturePath('testFile2.JSON');
+  testPath1 = getFixturePath('testFile1.json');
+  testPath2 = getFixturePath('testFile2.json');
   testPath3 = getFixturePath('testFile1.yaml');
   testPath4 = getFixturePath('testFile2.yaml');
   testPath5 = getFixturePath('testFile1.yml');
