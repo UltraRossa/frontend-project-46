@@ -6,7 +6,7 @@ const parse = (filepath) => {
   const extension = path.extname(filepath);
 
   switch (extension) {
-    case '.JSON':
+    case '.json':
       return JSON.parse(readFile(filepath));
     case '.yaml':
       return load(readFile(filepath));
