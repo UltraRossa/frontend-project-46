@@ -5,7 +5,6 @@ const addQuotesToStr = (data) => (_.isString(data) ? `'${data}'` : data);
 const iter = (node, path) => {
   const { key: currentKey, status } = node;
   const newPath = [...path, currentKey];
-  // newPath.push(currentKey);
 
   if (status === 'deleted') {
     const resultedPath = newPath.join('.');
