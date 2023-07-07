@@ -1,5 +1,5 @@
 import { getFullPath } from './src/utils.js';
-import format from './formatters/index.js';
+import format from './src/formatters/index.js';
 import parse from './src/parse.js';
 import makeDiffTree from './src/makeDiffTree.js';
 
