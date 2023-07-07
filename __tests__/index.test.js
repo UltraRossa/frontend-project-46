@@ -1,4 +1,4 @@
-import genDiff from '../src/index.js';
+import genDiff from '../index.js';
 import { readFile, getFixturePath } from '../src/utils.js';
 
 let testPath1;

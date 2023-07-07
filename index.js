@@ -1,7 +1,7 @@
-import { getFullPath } from './utils.js';
-import format from '../formatters/index.js';
-import parse from './parse.js';
-import makeDiffTree from './makeDiffTree.js';
+import { getFullPath } from './src/utils.js';
+import format from './formatters/index.js';
+import parse from './src/parse.js';
+import makeDiffTree from './src/makeDiffTree.js';
 
 const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
   const fullPath1 = getFullPath(filepath1);
