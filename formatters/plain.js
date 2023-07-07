@@ -3,24 +3,23 @@ import _ from 'lodash';
 const addQuotesToStr = (data) => (_.isString(data) ? `'${data}'` : data);
 
 const iter = (node, path) => {
-  let resultedPath;
-  const { key: currentKey } = node;
-  const newPath = Object.assign([], path);
-  newPath.push(currentKey);
+  const { key: currentKey, status } = node;
+  const newPath = [...path, currentKey];
+  // newPath.push(currentKey);
 
-  if (node.status === 'deleted') {
-    resultedPath = newPath.join('.');
+  if (status === 'deleted') {
+    const resultedPath = newPath.join('.');
     return `Property '${resultedPath}' was removed`;
   }
 
-  if (node.status === 'added') {
-    resultedPath = newPath.join('.');
+  if (status === 'added') {
+    const resultedPath = newPath.join('.');
     const addedValue = _.isObject(node.value) ? '[complex value]' : addQuotesToStr(node.value);
     return `Property '${resultedPath}' was added with value: ${addedValue}`;
   }
 
-  if (node.status === 'changed') {
-    resultedPath = newPath.join('.');
+  if (status === 'changed') {
+    const resultedPath = newPath.join('.');
     const oldValue = _.isObject(node.oldValue) ? '[complex value]' : addQuotesToStr(node.oldValue);
     const newValue = _.isObject(node.newValue) ? '[complex value]' : addQuotesToStr(node.newValue);
     return `Property '${resultedPath}' was updated. From ${oldValue} to ${newValue}`;
@@ -30,6 +29,7 @@ const iter = (node, path) => {
     return [];
   }
 
+  // node.status === 'nested'
   const { children } = node;
   const formattedChildren = children.flatMap((child) => iter(child, newPath));
   return formattedChildren;
