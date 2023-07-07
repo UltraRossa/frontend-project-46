@@ -25,11 +25,11 @@ const iter = (node, path) => {
     return `Property '${resultedPath}' was updated. From ${oldValue} to ${newValue}`;
   }
 
-  if (node.status === 'unchanged') {
+  if (status === 'unchanged') {
     return [];
   }
 
-  // node.status === 'nested'
+  // status === 'nested'
   const { children } = node;
   const formattedChildren = children.flatMap((child) => iter(child, newPath));
   return formattedChildren;
