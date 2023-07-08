@@ -68,4 +68,3 @@ gendiff --format json filepath1.json filepath2.json
 
 #### nested files with json formatter  
 [![asciicast](https://asciinema.org/a/eHeLCJhOZojdVuhW1XvfWvhbK.svg)](https://asciinema.org/a/eHeLCJhOZojdVuhW1XvfWvhbK)
-
