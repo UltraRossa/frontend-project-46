@@ -1,6 +1,8 @@
 import _ from 'lodash';
 
-const [specSymLength, indentSymbol, spaceCount] = [2, ' ', 4];
+const specSymLength = 2;
+const indentSymbol = ' ';
+const spaceCount = 4;
 
 const stringifyObject = (object, depth) => {
   const indentSize = depth * spaceCount;
