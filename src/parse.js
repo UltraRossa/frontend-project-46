@@ -1,18 +1,20 @@
+import fs from 'fs';
 import { load } from 'js-yaml';
-import path from 'path';
-import { readFile } from './utils.js';
 
-const parse = (filepath) => {
-  const extension = path.extname(filepath);
+export const readFile = (filepath) => fs.readFileSync(filepath, { encoding: 'utf8' });
 
+const getObjectFromJson = (filepath) => JSON.parse(readFile(filepath));
+
+const getObjectFromYml = (filepath) => load(readFile(filepath));
+
+const parse = (extension) => {
   switch (extension) {
     case '.json':
-      return JSON.parse(readFile(filepath));
+      return getObjectFromJson;
     case '.yaml':
-      return load(readFile(filepath));
-
+      return getObjectFromYml;
     case '.yml':
-      return load(readFile(filepath));
+      return getObjectFromYml;
     default:
       throw new Error(`Unknown order state: '${extension}'!`);
   }
