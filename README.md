@@ -18,7 +18,7 @@ Supported extension of files are:  **JSON, yaml, yml.**
     ```
 Minimal version of node.js is v20.1.0
 ## Quick start
-Type `genddiff --help` to see help.
+Type `gendiff --help` to see help.
 
 Available options are:  
 `-V, --version`- output the version number                    
