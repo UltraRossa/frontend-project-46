@@ -57,14 +57,14 @@ gendiff --format json filepath1.json filepath2.json
  ```
 
 ## Demonstrations
-#### plain files with stylish formatter by default
+#### Diff plain files with stylish formatter by default
 [![asciicast](https://asciinema.org/a/sfehrHPK9i77HSbKEwlhABb39.svg)](https://asciinema.org/a/sfehrHPK9i77HSbKEwlhABb39)
 
-#### nested files with stylish formatter
+#### DIff nested files with stylish formatter
 [![asciicast](https://asciinema.org/a/LVZCpTkbWP8aJA7Ja6Z7agtiV.svg)](https://asciinema.org/a/LVZCpTkbWP8aJA7Ja6Z7agtiV)
 
-#### nested files with plain formatter  
+#### Diff nested files with plain formatter  
 [![asciicast](https://asciinema.org/a/B0LUKWA2gzZGseHKIlKlutbPz.svg)](https://asciinema.org/a/B0LUKWA2gzZGseHKIlKlutbPz)
 
-#### nested files with json formatter  
+#### DIff nested files with json formatter  
 [![asciicast](https://asciinema.org/a/eHeLCJhOZojdVuhW1XvfWvhbK.svg)](https://asciinema.org/a/eHeLCJhOZojdVuhW1XvfWvhbK)
